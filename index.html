@@ -39,7 +39,7 @@ async def custom_site():
     # unpack filesystem from compressed archive into work dir
     if platform.window.location.host.find('.itch.zone')>0:
         import zipfile
-        async with platform.fopen("backgammon-coach.apk", "rb") as archive:
+        async with platform.fopen("backgammon-coach.apk?v=1792525102", "rb") as archive:
             with zipfile.ZipFile(archive) as zip_ref:
                 zip_ref.extractall(appdir.as_posix())
     else:
