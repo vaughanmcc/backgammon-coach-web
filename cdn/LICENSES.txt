@@ -1,0 +1,3 @@
+Copies of open-source files from https://pygame-web.github.io/cdn/ so the game also runs offline:
+pygbag (MIT) https://github.com/pygame-web/pygbag - CPython (PSF License) https://www.python.org
+pygame-ce (LGPL 2.1, source: https://github.com/pygame-community/pygame-ce) - xterm.js (MIT)
