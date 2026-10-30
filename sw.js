@@ -1,7 +1,7 @@
 // Keeps the game on the phone so it starts without internet (made by web_extras.py).
 // The page itself: online first (so updates arrive), stored copy when offline. Everything else: stored copy first.
-const STORE = "bgcoach-1793389271";
-const FILES = ["./", "index.html", "manifest.json", "favicon.png", "icon-192.png", "icon-512.png", "game-1793389271.tar.gz", "cdn/0.9.3/pythons.js", "cdn/0.9.3/empty.html", "cdn/0.9.3/empty.ogg", "cdn/0.9.3/cpythonrc.py", "cdn/0.9.3/cpython312/main.js", "cdn/0.9.3/cpython312/main.data", "cdn/0.9.3/cpython312/main.wasm", "cdn/vtx.js", "cdn/vt/xterm.css", "cdn/vt/xterm.js", "cdn/vt/xterm-addon-image.js", "cdn/index-0.9.3-cp312.json", "cdn/cp312/pygame_ce-2.5.7-cp312-cp312-wasm32_bi_emscripten.whl"];
+const STORE = "bgcoach-1793390181";
+const FILES = ["./", "index.html", "manifest.json", "favicon.png", "icon-192.png", "icon-512.png", "game-1793390181.tar.gz", "cdn/0.9.3/pythons.js", "cdn/0.9.3/empty.html", "cdn/0.9.3/empty.ogg", "cdn/0.9.3/cpythonrc.py", "cdn/0.9.3/cpython312/main.js", "cdn/0.9.3/cpython312/main.data", "cdn/0.9.3/cpython312/main.wasm", "cdn/vtx.js", "cdn/vt/xterm.css", "cdn/vt/xterm.js", "cdn/vt/xterm-addon-image.js", "cdn/index-0.9.3-cp312.json", "cdn/cp312/pygame_ce-2.5.7-cp312-cp312-wasm32_bi_emscripten.whl"];
 self.addEventListener("install", e => { self.skipWaiting(); e.waitUntil(caches.open(STORE).then(c => c.addAll(FILES))); });
 self.addEventListener("activate", e => e.waitUntil(caches.keys().then(keys =>
   Promise.all(keys.filter(k => k !== STORE).map(k => caches.delete(k)))).then(() => self.clients.claim())));
