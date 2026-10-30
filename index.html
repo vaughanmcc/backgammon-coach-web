@@ -44,7 +44,7 @@ async def custom_site():
                 zip_ref.extractall(appdir.as_posix())
     else:
         import tarfile
-        async with platform.fopen("game-1793388441.tar.gz", "rb") as archive:
+        async with platform.fopen("game-1793389271.tar.gz", "rb") as archive:
             tar = tarfile.open(fileobj=archive, mode="r:gz")
             tar.extractall(path=appdir.as_posix(), filter='tar')
             tar.close()
@@ -182,7 +182,11 @@ function show_infobox() {
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#141414">
 <link rel="apple-touch-icon" href="icon-192.png">
-<script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");</script>
+<script>if ("serviceWorker" in navigator) {
+  const had = !!navigator.serviceWorker.controller; let reloaded = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => { if (had && !reloaded) { reloaded = true; location.reload(); } });
+  navigator.serviceWorker.register("sw.js").then(r => r.update()).catch(() => {});
+}</script>
 <title>Backgammon Coach</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

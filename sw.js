@@ -1,7 +1,7 @@
 // Keeps the game on the phone so it starts without internet (made by web_extras.py).
 // The page itself: online first (so updates arrive), stored copy when offline. Everything else: stored copy first.
-const STORE = "bgcoach-1793388441";
-const FILES = ["./", "index.html", "manifest.json", "favicon.png", "icon-192.png", "icon-512.png", "game-1793388441.tar.gz", "cdn/0.9.3/pythons.js", "cdn/0.9.3/empty.html", "cdn/0.9.3/empty.ogg", "cdn/0.9.3/cpythonrc.py", "cdn/0.9.3/cpython312/main.js", "cdn/0.9.3/cpython312/main.data", "cdn/0.9.3/cpython312/main.wasm", "cdn/vtx.js", "cdn/vt/xterm.css", "cdn/vt/xterm.js", "cdn/vt/xterm-addon-image.js", "cdn/index-0.9.3-cp312.json", "cdn/cp312/pygame_ce-2.5.7-cp312-cp312-wasm32_bi_emscripten.whl"];
+const STORE = "bgcoach-1793389271";
+const FILES = ["./", "index.html", "manifest.json", "favicon.png", "icon-192.png", "icon-512.png", "game-1793389271.tar.gz", "cdn/0.9.3/pythons.js", "cdn/0.9.3/empty.html", "cdn/0.9.3/empty.ogg", "cdn/0.9.3/cpythonrc.py", "cdn/0.9.3/cpython312/main.js", "cdn/0.9.3/cpython312/main.data", "cdn/0.9.3/cpython312/main.wasm", "cdn/vtx.js", "cdn/vt/xterm.css", "cdn/vt/xterm.js", "cdn/vt/xterm-addon-image.js", "cdn/index-0.9.3-cp312.json", "cdn/cp312/pygame_ce-2.5.7-cp312-cp312-wasm32_bi_emscripten.whl"];
 self.addEventListener("install", e => { self.skipWaiting(); e.waitUntil(caches.open(STORE).then(c => c.addAll(FILES))); });
 self.addEventListener("activate", e => e.waitUntil(caches.keys().then(keys =>
   Promise.all(keys.filter(k => k !== STORE).map(k => caches.delete(k)))).then(() => self.clients.claim())));
@@ -17,7 +17,9 @@ self.addEventListener("fetch", e => {
   const home = new URL("./", self.registration.scope).pathname;
   if (req.mode === "navigate" && (url.pathname === home || url.pathname === home + "index.html")) {   // not the frame inside
     const stored = () => caches.match("./");   // also when the answer is an error page (no signal, Wi-Fi login...)
-    e.respondWith(fetch(req).then(r => {
+    // Always ask the site (no-cache: a quick check, the page only downloads when it changed). Phones reopening a page
+    // ask for the browser's stored copy instead, which kept showing an old version after updates.
+    e.respondWith(fetch(req.url, {cache: "no-cache", credentials: "same-origin"}).then(r => {
       if (!r.ok) return stored().then(hit => hit || r);
       const copy = r.clone(); caches.open(STORE).then(c => c.put("./", copy)); return r;
     }).catch(stored));
